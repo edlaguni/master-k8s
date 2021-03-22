@@ -1,0 +1,21 @@
+apiVersion: app/v1 #Specify the correct API version that supports ReplicaSet
+kind: ReplicaSet 
+metadata:
+  name: app1-rs
+  labels: #Contains user-defined key:value
+    app: app1
+spec:
+  template: #Required for ReplicaSet; specifies the specs of each replica
+    metadata: 
+      name: app1-pod
+      labels:
+        app: app1
+        type: rs-sample
+    spec:
+      containers:
+      - name: nginx
+        image: nginx 
+  replicas: 3
+  selector: #Optional; If omitted, "selector" will use the first label under "template"
+    matchLabels:
+      type: rs-sample #This means the ReplicaSet will replicate Pods with the "label > type: rs-sample"
